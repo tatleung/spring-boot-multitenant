@@ -28,6 +28,14 @@ public class Person extends CommonBaseModel {
   /** Last name. */
   private String lastName;
 
+
+  @ManyToOne(cascade = { CascadeType.ALL })
+  @JoinColumn(name = "manager_id")
+  Person manager;
+
+  @OneToMany(mappedBy = "manager", cascade = { CascadeType.ALL })
+  List<Person> subordinates = new ArrayList<Person>();
+
   /** First name getter. */
   public String getFirstName() {
     return this.firstName;
@@ -46,6 +54,22 @@ public class Person extends CommonBaseModel {
   /** Last name setter. */
   public void setLastName(final String lastname) {
     this.lastName = lastname;
+  }
+
+  public Person getManager() {
+    return manager;
+  }
+
+  public void setManager(Person manager) {
+    this.manager = manager;
+  }
+
+  public List<Person> getSubordinates() {
+    return subordinates;
+  }
+
+  public void setSubordinates(List<Person> subordinates) {
+    this.subordinates = subordinates;
   }
 
   /** String representation. */

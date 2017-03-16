@@ -31,7 +31,10 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
 
   @Override
   public Connection getConnection(String tenantIdentifier) throws SQLException {
+    System.out.println("Number of connections before getConnection(): " + ((org.apache.tomcat.jdbc.pool.DataSource)dataSource).getActive());
     final Connection connection = getAnyConnection();
+    System.out.println("Number of connections after getConnection(): " + ((org.apache.tomcat.jdbc.pool.DataSource)dataSource).getActive());
+
     try {
       connection.createStatement().execute( "USE " + tenantIdentifier );
     }
@@ -55,7 +58,10 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
           e
           );
     }
+    System.out.println("Number of connections before close(): " + ((org.apache.tomcat.jdbc.pool.DataSource)dataSource).getActive());
     connection.close();
+    System.out.println("Number of connections after close(): " + ((org.apache.tomcat.jdbc.pool.DataSource)dataSource).getActive());
+
   }
 
   @SuppressWarnings("rawtypes")
